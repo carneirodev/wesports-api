@@ -2,6 +2,7 @@ import { getRepository } from "typeorm";
 import {v4 as uuid} from "uuid";
 import { Schedules } from "../entities/Schedules";
 import { User } from "../entities/User";
+import AppError from "../errors/AppError";
 
 type ScheduleRequest = {
     owner: string;
@@ -16,17 +17,28 @@ export class CreateScheduleService {
         const userRepository = getRepository(User);
 
         if(!(await userRepository.findOne({id: owner}))) {
-            return new Error("Onwer id not found");
+            throw new AppError("Onwer id not found", 400);
         }        
         console.log("aqui4");
 
-        if(!(await userRepository.findOne({id: rival}))) {
-            return new Error("Rival id not found");
+        
+        //check if already exists
+        const schedule = await scheduleRepository.findOne({
+            where: {
+                owner_id: owner,
+                rival_id: rival,
+                date
+            }
+        });
+        console.log("schedule", schedule);
+        if(schedule) {
+            throw new AppError("Schedule already exists", 400);
         }
+
 
         const result = scheduleRepository.create({
             owner_id: owner,
-            rival_id: rival,
+            rival_id: rival? rival : null,
             date,
             status
         });

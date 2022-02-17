@@ -6,7 +6,6 @@ export class UpdateScheduleController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { id } = request.params;
         const {owner, rival, date, status} = request.body;
-
         const updateScheduleService = new UpdateScheduleService();
 
         const result = await updateScheduleService.execute({

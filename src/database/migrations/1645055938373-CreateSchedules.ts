@@ -18,6 +18,7 @@ export class CreateSchedules1645055938373 implements MigrationInterface {
                     {
                         name: 'rival_id',
                         type: 'varchar',
+                        isNullable: true,
                     },
                     {
                         name: 'date',

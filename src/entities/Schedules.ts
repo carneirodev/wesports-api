@@ -11,7 +11,7 @@ export class Schedules {
     owner_id: string;
 
     @Column("uuid")
-    rival_id: string;
+    rival_id?: string;
 
 
     @ManyToOne(()=> User)
@@ -20,7 +20,7 @@ export class Schedules {
 
     @ManyToOne(()=> User)
     @JoinColumn({name: "rival_id"})
-    rival: User;
+    rival?: User;
 
     @Column("timestamp")
     date: Date;

@@ -18,7 +18,7 @@ const routes = Router();
 routes.post('/user', new CreateUserController().handle);
 routes.post('/sessions', new SessionsController().handle);
 
-routes.use(authMiddleware);
+// routes.use(authMiddleware);
 
 routes.get('/user', new GetAllUsersController().handle);
 routes.delete('/user/:id', new DeleteUserController().handle);
