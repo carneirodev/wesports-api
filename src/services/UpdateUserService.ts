@@ -1,5 +1,6 @@
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
+import { hash } from 'bcryptjs';
 
 type UserUpdateRequest = {
     name: string;
@@ -20,9 +21,10 @@ export class UpdateUserService {
         if (!user) {
             return new Error("User not found");
         }
+        const hashedPassword = await hash(password, 8);
 
         user.name = name ? name : user.name;
-        user.password = password ? password : user.password;
+        user.password = password ? hashedPassword : user.password;
         user.lastName = lastName ? lastName : user.lastName;
         user.email = email ? email : user.email;
         user.acronym= acronym ? acronym : user.acronym;
